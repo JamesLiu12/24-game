@@ -34,7 +34,7 @@ class JPoker24GamePanel extends JPanel {
         logoutButton.addActionListener(event -> {
             try {
                 gameGUI.userService.logout(gameGUI.username);
-                gameGUI.showPanel("Login", 600, 400);
+                gameGUI.showPanel("Login", 400, 300);
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(JPoker24GamePanel.this,
                         "Error connecting to the server.", "Remote Error", JOptionPane.ERROR_MESSAGE);
