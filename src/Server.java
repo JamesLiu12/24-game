@@ -17,7 +17,9 @@ public class Server extends UnicastRemoteObject implements UserService {
         }
     }
 
-    public Server() throws RemoteException {}
+    public Server() throws RemoteException {
+        databaseManager.clearOnlineUsers();
+    }
 
     @Override
     public boolean login(String username, String password) throws RemoteException {
