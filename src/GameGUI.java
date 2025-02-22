@@ -9,11 +9,11 @@ public class GameGUI {
     final public UserService userService;
     public String username;
 
-    public GameGUI() {
+    public GameGUI(String host) {
         UserService tempService = null;
 
         try {
-            Registry registry = LocateRegistry.getRegistry("localhost");
+            Registry registry = LocateRegistry.getRegistry(host);
             tempService = (UserService)registry.lookup("UserService");
         } catch (Exception e) {
             System.err.println("Failed accessing RMI: " + e);
@@ -46,6 +46,6 @@ public class GameGUI {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(GameGUI::new);
+        SwingUtilities.invokeLater(() -> new GameGUI(args[0]));
     }
 }
