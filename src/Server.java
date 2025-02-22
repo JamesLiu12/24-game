@@ -10,7 +10,7 @@ public class Server extends UnicastRemoteObject implements UserService {
         try {
             Server server = new Server();
             System.setSecurityManager(new SecurityManager());
-            Naming.rebind("WordCounter", server);
+            Naming.rebind("UserService", server);
             System.out.println("Server started and ready for clients.");
         } catch (Exception e) {
             System.err.println("Exception thrown: " + e);
