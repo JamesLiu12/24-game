@@ -41,7 +41,7 @@ class RegisterPanel extends JPanel {
         buttonPanel.add(registerButton);
         buttonPanel.add(cancelButton);
 
-        registerButton.addActionListener(_ -> {
+        registerButton.addActionListener(event -> {
             String username = loginField.getText();
             String password = new String(passwordField.getPassword());
             String confirmPassword = new String(confirmPasswordField.getPassword());
@@ -65,12 +65,11 @@ class RegisterPanel extends JPanel {
                 } catch (RemoteException e) {
                     JOptionPane.showMessageDialog(RegisterPanel.this,
                             "Error connecting to the server.", "Remote Error", JOptionPane.ERROR_MESSAGE);
-                    e.printStackTrace();
                 }
             }
         });
 
-        cancelButton.addActionListener(_ -> {
+        cancelButton.addActionListener(e -> {
             gameGUI.showPanel("Login", 400, 300);
         });
 

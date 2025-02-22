@@ -28,10 +28,10 @@ class JPoker24GamePanel extends JPanel {
         contentPanel.add(new PlayGamePanel(), "PlayGame");
         contentPanel.add(new LeaderBoardPanel(), "LeaderBoard");
 
-        userProfileButton.addActionListener(_ -> contentLayout.show(contentPanel, "UserProfile"));
-        playGameButton.addActionListener(_ -> contentLayout.show(contentPanel, "PlayGame"));
-        leaderBoardButton.addActionListener(_ -> contentLayout.show(contentPanel, "LeaderBoard"));
-        logoutButton.addActionListener(_ -> {
+        userProfileButton.addActionListener(event -> contentLayout.show(contentPanel, "UserProfile"));
+        playGameButton.addActionListener(event -> contentLayout.show(contentPanel, "PlayGame"));
+        leaderBoardButton.addActionListener(event -> contentLayout.show(contentPanel, "LeaderBoard"));
+        logoutButton.addActionListener(event -> {
             try {
                 gameGUI.userService.logout(gameGUI.username);
                 gameGUI.showPanel("Login", 600, 400);
