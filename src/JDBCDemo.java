@@ -38,6 +38,8 @@ public class JDBCDemo {
 				update(keyboard.next(), keyboard.next());
 			} else if(line.equals("delete")) {
 				delete(keyboard.next());
+			} else if (line.equals("month")) {
+				month(keyboard.nextInt());
 			}
 			System.out.print("> ");
 		}
@@ -118,5 +120,22 @@ public class JDBCDemo {
 			System.err.println("Error inserting record: "+e);
 		}
 
+	}
+	private void month(int month) {
+		try {
+			PreparedStatement stmt = conn.prepareStatement("SELECT name FROM c3358_2025 WHERE MONTH(birthday) = ?");
+			stmt.setInt(1, month);
+			ResultSet rs = stmt.executeQuery();
+			boolean found = false;
+			while (rs.next()) {
+				System.out.println(rs.getString(1));
+				found = true;
+			}
+			if (!found) {
+				System.out.println("No records found for month " + month);
+			}
+		} catch (SQLException e) {
+			System.err.println("Error fetching records: " + e);
+		}
 	}
 }
