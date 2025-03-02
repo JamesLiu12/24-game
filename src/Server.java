@@ -1,10 +1,12 @@
 import java.io.*;
 import java.rmi.*;
 import java.rmi.server.*;
+import java.sql.SQLException;
 import java.util.*;
 
 public class Server extends UnicastRemoteObject implements UserService {
-    DatabaseManager databaseManager = new DatabaseManager();
+    UserInfoDAO userInfoDAO = new UserInfoDAO();
+    OnlineUserDAO onlineUserDAO = new OnlineUserDAO();
 
     public static void main(String[] args) {
         try {
@@ -17,25 +19,23 @@ public class Server extends UnicastRemoteObject implements UserService {
         }
     }
 
-    public Server() throws RemoteException {
-        databaseManager.clearOnlineUsers();
+    public Server() throws RemoteException, SQLException, ClassNotFoundException {
+
     }
 
     @Override
     public boolean login(String username, String password) throws RemoteException {
         try {
-            Map<String, String> users = databaseManager.loadUserInfo();
-            Set<String> onlineUsers = databaseManager.loadOnlineUsers();
+            UserInfo userInfo = userInfoDAO.read(username);
+            OnlineUser onlineUser = onlineUserDAO.read(username);
 
-            if (!users.containsKey(username)
-                    || !users.get(username).equals(password) || onlineUsers.contains(username)) {
+            if (userInfo == null || !userInfo.password.equals(password) || onlineUser != null) {
                 return false;
             }
 
-            onlineUsers.add(username);
-            databaseManager.updateOnlineUsers(onlineUsers);
+            onlineUserDAO.insert(new OnlineUser(userInfo.username));
             return true;
-        } catch (IOException e) {
+        } catch (SQLException e) {
             throw new RemoteException("Login failed", e);
         }
     }
@@ -43,17 +43,16 @@ public class Server extends UnicastRemoteObject implements UserService {
     @Override
     public boolean register(String username, String password) throws RemoteException {
         try {
-            Map<String, String> users = databaseManager.loadUserInfo();
-            if (users.containsKey(username)) {
+            UserInfo userInfo = userInfoDAO.read(username);
+
+            if (userInfo != null) {
                 return false;
             }
 
-            databaseManager.saveUserInfo(username, password);
-            Set<String> onlineUsers = databaseManager.loadOnlineUsers();
-            onlineUsers.add(username);
-            databaseManager.updateOnlineUsers(onlineUsers);
+            userInfoDAO.insert(new UserInfo(username, password));
+            onlineUserDAO.insert(new OnlineUser(username));
             return true;
-        } catch (IOException e) {
+        } catch (SQLException e) {
             throw new RemoteException("Registration failed", e);
         }
     }
@@ -61,10 +60,8 @@ public class Server extends UnicastRemoteObject implements UserService {
     @Override
     public void logout(String username) throws RemoteException {
         try {
-            Set<String> onlineUsers = databaseManager.loadOnlineUsers();
-            onlineUsers.remove(username);
-            databaseManager.updateOnlineUsers(onlineUsers);
-        } catch (IOException e) {
+            onlineUserDAO.delete(username);
+        } catch (SQLException e) {
             throw new RemoteException("Logout failed", e);
         }
     }
