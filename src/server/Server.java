@@ -1,8 +1,14 @@
-import java.io.*;
+package server;
+
+import dao.OnlineUserDAO;
+import dao.UserInfoDAO;
+import model.OnlineUser;
+import model.UserInfo;
+import service.UserService;
+
 import java.rmi.*;
 import java.rmi.server.*;
 import java.sql.SQLException;
-import java.util.*;
 
 public class Server extends UnicastRemoteObject implements UserService {
     UserInfoDAO userInfoDAO = new UserInfoDAO();
@@ -12,7 +18,7 @@ public class Server extends UnicastRemoteObject implements UserService {
         try {
             Server server = new Server();
             System.setSecurityManager(new SecurityManager());
-            Naming.rebind("UserService", server);
+            Naming.rebind("service.UserService", server);
             System.out.println("Server started and ready for clients.");
         } catch (Exception e) {
             System.err.println("Exception thrown: " + e);

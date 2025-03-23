@@ -1,3 +1,5 @@
+package model;
+
 public class OnlineUser {
     public String username;
 

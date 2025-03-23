@@ -1,3 +1,5 @@
+package service;
+
 import java.rmi.*;
 
 public interface UserService extends Remote {

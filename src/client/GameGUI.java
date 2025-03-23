@@ -1,3 +1,7 @@
+package client;
+
+import service.UserService;
+
 import javax.swing.*;
 import java.awt.*;
 import java.rmi.registry.*;
@@ -14,7 +18,7 @@ public class GameGUI {
 
         try {
             Registry registry = LocateRegistry.getRegistry(host);
-            tempService = (UserService)registry.lookup("UserService");
+            tempService = (UserService)registry.lookup("service.UserService");
         } catch (Exception e) {
             System.err.println("Failed accessing RMI: " + e);
         }

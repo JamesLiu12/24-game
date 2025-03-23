@@ -1,3 +1,7 @@
+package dao;
+
+import model.OnlineUser;
+
 import java.sql.*;
 
 public class OnlineUserDAO extends BaseDAO implements DatabaseOperations<OnlineUser> {
