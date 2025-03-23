@@ -1,4 +1,4 @@
-package client;
+package client.gui;
 
 import service.UserService;
 
@@ -47,9 +47,5 @@ public class GameGUI {
         cardLayout.show(mainPanel, panelName);
         frame.setTitle(panelName);
         frame.setSize(width, height);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new GameGUI(args[0]));
     }
 }

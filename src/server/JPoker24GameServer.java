@@ -10,13 +10,13 @@ import java.rmi.*;
 import java.rmi.server.*;
 import java.sql.SQLException;
 
-public class Server extends UnicastRemoteObject implements UserService {
+public class JPoker24GameServer extends UnicastRemoteObject implements UserService {
     UserInfoDAO userInfoDAO = new UserInfoDAO();
     OnlineUserDAO onlineUserDAO = new OnlineUserDAO();
 
     public static void main(String[] args) {
         try {
-            Server server = new Server();
+            JPoker24GameServer server = new JPoker24GameServer();
             System.setSecurityManager(new SecurityManager());
             Naming.rebind("service.UserService", server);
             System.out.println("Server started and ready for clients.");
@@ -25,7 +25,7 @@ public class Server extends UnicastRemoteObject implements UserService {
         }
     }
 
-    public Server() throws RemoteException, SQLException, ClassNotFoundException {
+    public JPoker24GameServer() throws RemoteException, SQLException, ClassNotFoundException {
 
     }
 
