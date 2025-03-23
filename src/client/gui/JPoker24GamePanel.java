@@ -1,5 +1,9 @@
 package client.gui;
 
+import client.gui.gameplay.PlayGamePanel;
+import client.gui.leaderboard.LeaderBoardPanel;
+import client.gui.profile.UserProfilePanel;
+
 import javax.swing.*;
 import java.awt.*;
 import java.rmi.RemoteException;

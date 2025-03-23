@@ -1,10 +1,12 @@
-package client.gui;
+package client.gui.login;
+
+import client.gui.GameGUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.rmi.*;
 
-class LoginPanel extends JPanel {
+public class LoginPanel extends JPanel {
 
     public LoginPanel(GameGUI gameGUI) {
         setLayout(new BorderLayout());

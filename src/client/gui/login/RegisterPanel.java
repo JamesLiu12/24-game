@@ -1,10 +1,12 @@
-package client.gui;
+package client.gui.login;
+
+import client.gui.GameGUI;
 
 import javax.swing.*;
 import java.awt.*;
 import java.rmi.RemoteException;
 
-class RegisterPanel extends JPanel {
+public class RegisterPanel extends JPanel {
     public RegisterPanel(GameGUI gameGUI) {
         setLayout(new BorderLayout());
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));

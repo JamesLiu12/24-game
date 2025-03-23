@@ -1,5 +1,7 @@
 package client.gui;
 
+import client.gui.login.LoginPanel;
+import client.gui.login.RegisterPanel;
 import service.UserService;
 
 import javax.swing.*;
