@@ -58,7 +58,7 @@ public class RegisterPanel extends JPanel {
                         "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
-                    if (gameGUI.userService != null && gameGUI.userService.register(username, password)) {
+                    if (gameGUI.loginService != null && gameGUI.loginService.register(username, password)) {
                         JOptionPane.showMessageDialog(RegisterPanel.this,
                                 "Registration Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                         gameGUI.username = username;

@@ -6,13 +6,13 @@ import java.sql.SQLException;
 
 public class JPoker24GameServer extends UnicastRemoteObject {
 
-    final private UserManager userManager;
+    final private LoginManager loginManager;
 
     public static void main(String[] args) {
         try {
             JPoker24GameServer server = new JPoker24GameServer();
             System.setSecurityManager(new SecurityManager());
-            Naming.rebind("service.UserService", server.userManager);
+            Naming.rebind("service.remote.LoginService", server.loginManager);
             System.out.println("Server started and ready for clients.");
         } catch (Exception e) {
             System.err.println("Exception thrown: " + e);
@@ -20,7 +20,7 @@ public class JPoker24GameServer extends UnicastRemoteObject {
     }
 
     public JPoker24GameServer() throws RemoteException, SQLException, ClassNotFoundException {
-        userManager = new UserManager();
+        loginManager = new LoginManager();
     }
 
 }

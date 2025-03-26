@@ -4,17 +4,17 @@ import dao.OnlineUserDAO;
 import dao.UserInfoDAO;
 import model.OnlineUser;
 import model.UserInfo;
-import service.UserService;
+import service.remote.LoginService;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 
-public class UserManager extends UnicastRemoteObject implements UserService {
+public class LoginManager extends UnicastRemoteObject implements LoginService {
     UserInfoDAO userInfoDAO = new UserInfoDAO();
     OnlineUserDAO onlineUserDAO = new OnlineUserDAO();
 
-    public UserManager() throws RemoteException, SQLException, ClassNotFoundException {
+    public LoginManager() throws RemoteException, SQLException, ClassNotFoundException {
 
     }
 

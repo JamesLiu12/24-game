@@ -2,30 +2,32 @@ package client.gui;
 
 import client.gui.login.LoginPanel;
 import client.gui.login.RegisterPanel;
-import service.UserService;
+import service.game.GameService;
+import service.remote.LoginService;
 
+import javax.jms.JMSException;
+import javax.naming.NamingException;
 import javax.swing.*;
 import java.awt.*;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.*;
 
 public class GameGUI {
     final private JFrame frame;
     final private JPanel mainPanel;
     final private CardLayout cardLayout;
-    final public UserService userService;
+
+    final public LoginService loginService;
+    final public GameService gameService;
+
     public String username;
 
-    public GameGUI(String host) {
-        UserService tempService = null;
+    public GameGUI(String host) throws RemoteException, NotBoundException, NamingException, JMSException {
+        Registry registry = LocateRegistry.getRegistry(host);
+        loginService = (LoginService)registry.lookup("service.remote.LoginService");
 
-        try {
-            Registry registry = LocateRegistry.getRegistry(host);
-            tempService = (UserService)registry.lookup("service.UserService");
-        } catch (Exception e) {
-            System.err.println("Failed accessing RMI: " + e);
-        }
-
-        userService = tempService;
+        gameService = new GameService();
 
         frame = new JFrame("");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

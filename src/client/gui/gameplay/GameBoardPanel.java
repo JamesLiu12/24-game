@@ -27,14 +27,5 @@ public class GameBoardPanel extends JPanel {
 
         add(new ExpressionInputPanel("(J+Q)+8/4", "25"), BorderLayout.SOUTH);
     }
-
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("Game Board");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 350);
-        frame.setLocationRelativeTo(null);
-        frame.setContentPane(new GameBoardPanel());
-        frame.setVisible(true);
-    }
 }
 

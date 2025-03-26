@@ -31,7 +31,7 @@ class JPoker24GamePanel extends JPanel {
         contentPanel = new JPanel(contentLayout);
 
         contentPanel.add(new UserProfilePanel(), "UserProfile");
-        contentPanel.add(new PlayGamePanel(), "PlayGame");
+        contentPanel.add(new PlayGamePanel(gameGUI), "PlayGame");
         contentPanel.add(new LeaderBoardPanel(), "LeaderBoard");
 
         userProfileButton.addActionListener(event -> contentLayout.show(contentPanel, "UserProfile"));
@@ -39,7 +39,7 @@ class JPoker24GamePanel extends JPanel {
         leaderBoardButton.addActionListener(event -> contentLayout.show(contentPanel, "LeaderBoard"));
         logoutButton.addActionListener(event -> {
             try {
-                gameGUI.userService.logout(gameGUI.username);
+                gameGUI.loginService.logout(gameGUI.username);
                 gameGUI.showPanel("Login", 400, 300);
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(JPoker24GamePanel.this,

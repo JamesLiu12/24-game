@@ -1,12 +1,18 @@
 package client.gui.gameplay;
 
+import client.gui.GameGUI;
+import service.game.GameService;
+
 import javax.swing.*;
 import java.awt.*;
 
 public class PlayGamePanel extends JPanel {
     final private CardLayout panelLayout;
+    final private GameService gameService;
 
-    public PlayGamePanel() {
+    public PlayGamePanel(GameGUI gameGUI) {
+        gameService = gameGUI.gameService;
+
         JButton newGameButton = new JButton("New Game");
 
         JPanel waitingPanel = new JPanel(new GridBagLayout());
@@ -19,11 +25,17 @@ public class PlayGamePanel extends JPanel {
         add(waitingPanel, "Waiting");
         add(new GameBoardPanel(), "GameBoard");
 
-        newGameButton.addActionListener(event -> JoinGame());
+        newGameButton.addActionListener(event -> JoinGame(gameGUI.username));
     }
 
-    private void JoinGame() {
+    private void JoinGame(String username) {
         panelLayout.show(this, "Waiting");
-        panelLayout.show(this, "GameBoard");
+
+        try {
+            gameService.joinGame(username);
+        } catch (Exception e) {
+            panelLayout.show(this, "NewGame");
+            System.err.println("Failed joining game: " + e);
+        }
     }
 }

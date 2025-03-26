@@ -47,7 +47,7 @@ public class LoginPanel extends JPanel {
                         "Login name and password should not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
-                    if (gameGUI.userService != null && gameGUI.userService.login(username, password)) {
+                    if (gameGUI.loginService != null && gameGUI.loginService.login(username, password)) {
                         JOptionPane.showMessageDialog(LoginPanel.this,
                                 "Logged in successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                         gameGUI.username = username;
