@@ -43,4 +43,8 @@ public class TopicReceiver extends BaseJMS {
             return null;
         }
     }
+
+    public void setMessageListener(MessageListener listener) throws JMSException {
+        subscriber.setMessageListener(listener);
+    }
 }

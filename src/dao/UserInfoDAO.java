@@ -1,7 +1,7 @@
 package dao;
 
 import java.sql.*;
-import model.UserInfo;
+import model.login.UserInfo;
 
 public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo> {
     public UserInfoDAO() throws SQLException, ClassNotFoundException {

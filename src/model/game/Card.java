@@ -1,4 +1,4 @@
-package model;
+package model.game;
 
 public class Card {
     public final int suit;      // 1 = ♣, 2 = ♠, 3 = ♦, 4 = ♥

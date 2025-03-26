@@ -1,6 +1,6 @@
 package client.gui.gameplay;
 
-import model.Card;
+import model.game.Card;
 
 import javax.swing.*;
 import java.awt.*;
@@ -8,21 +8,16 @@ import java.util.List;
 
 public class CardsPanel extends JPanel {
 
-    public CardsPanel(List<Card> cards) {
+    public CardsPanel(Card[] cards) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.WHITE);
 
-        add(Box.createVerticalGlue());
+        setCards(cards);
+    }
 
-        JPanel row = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 10));
-        row.setOpaque(false);
-
-        for (Card card : cards) {
-            row.add(createCardImageLabel(card));
-        }
-
-        add(row);
-        add(Box.createVerticalGlue());
+    public CardsPanel() {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setBackground(Color.WHITE);
     }
 
     private JLabel createCardImageLabel(Card card) {
@@ -35,5 +30,24 @@ public class CardsPanel extends JPanel {
         JLabel label = new JLabel(scaledIcon);
         label.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return label;
+    }
+
+    public void setCards(Card[] cards) {
+        removeAll();
+
+        add(Box.createVerticalGlue());
+
+        JPanel row = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 10));
+        row.setOpaque(false);
+
+        for (Card card : cards) {
+            row.add(createCardImageLabel(card));
+        }
+
+        add(row);
+        add(Box.createVerticalGlue());
+
+        revalidate();
+        repaint();
     }
 }

@@ -1,11 +1,15 @@
 package service.game;
 
 import constant.JmsConfig;
+import model.game.GameStartMessage;
+import model.game.PlayerStat;
 import service.jms.QueueSender;
 import service.jms.TopicReceiver;
 
 import javax.jms.JMSException;
+import javax.jms.ObjectMessage;
 import javax.naming.NamingException;
+import java.util.function.Consumer;
 
 public class GameService {
     final private QueueSender queueSender;
@@ -16,8 +20,23 @@ public class GameService {
         topicReceiver = new TopicReceiver(JmsConfig.JMS_HOST, JmsConfig.CONNECTION_FACTORY_JNDI, JmsConfig.TOPIC_JNDI);
     }
 
-    public void joinGame(String playerId) throws JMSException {
-        queueSender.sendText(playerId);
-        topicReceiver.receiveObject();
+    public void joinGame(String username, Consumer<GameStartMessage> callback) throws JMSException {
+        queueSender.sendText(username);
+
+        topicReceiver.setMessageListener(message -> {
+            try {
+                if (message instanceof ObjectMessage) {
+                    GameStartMessage gameStartMessage = (GameStartMessage) ((ObjectMessage) message).getObject();
+                    for (PlayerStat playerStat : gameStartMessage.playerStats) {
+                        if (playerStat.username.equals(username)) {
+                            callback.accept(gameStartMessage);
+                            break;
+                        }
+                    }
+                }
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+        });
     }
 }

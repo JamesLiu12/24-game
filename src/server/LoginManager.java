@@ -2,8 +2,8 @@ package server;
 
 import dao.OnlineUserDAO;
 import dao.UserInfoDAO;
-import model.OnlineUser;
-import model.UserInfo;
+import model.login.OnlineUser;
+import model.login.UserInfo;
 import service.remote.LoginService;
 
 import java.rmi.RemoteException;

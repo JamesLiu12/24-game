@@ -1,6 +1,6 @@
 package dao;
 
-import model.OnlineUser;
+import model.login.OnlineUser;
 
 import java.sql.*;
 

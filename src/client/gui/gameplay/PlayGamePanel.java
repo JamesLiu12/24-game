@@ -9,6 +9,7 @@ import java.awt.*;
 public class PlayGamePanel extends JPanel {
     final private CardLayout panelLayout;
     final private GameService gameService;
+    final private GameBoardPanel gameBoardPanel;
 
     public PlayGamePanel(GameGUI gameGUI) {
         gameService = gameGUI.gameService;
@@ -23,7 +24,7 @@ public class PlayGamePanel extends JPanel {
 
         add(newGameButton, "NewGame");
         add(waitingPanel, "Waiting");
-        add(new GameBoardPanel(), "GameBoard");
+        add(gameBoardPanel = new GameBoardPanel(), "GameBoard");
 
         newGameButton.addActionListener(event -> JoinGame(gameGUI.username));
     }
@@ -32,7 +33,11 @@ public class PlayGamePanel extends JPanel {
         panelLayout.show(this, "Waiting");
 
         try {
-            gameService.joinGame(username);
+            gameService.joinGame(username, gameStartMessage -> {
+                gameBoardPanel.setCards(gameStartMessage.cards);
+                gameBoardPanel.setPlayerStats(gameStartMessage.playerStats);
+                SwingUtilities.invokeLater(() -> panelLayout.show(this, "GameBoard"));
+            });
         } catch (Exception e) {
             panelLayout.show(this, "NewGame");
             System.err.println("Failed joining game: " + e);
