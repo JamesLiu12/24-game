@@ -2,7 +2,7 @@ package client.gui;
 
 import client.gui.login.LoginPanel;
 import client.gui.login.RegisterPanel;
-import service.game.GameService;
+import service.game.JoinGameService;
 import service.remote.LoginService;
 
 import javax.jms.JMSException;
@@ -19,7 +19,7 @@ public class GameGUI {
     final private CardLayout cardLayout;
 
     final public LoginService loginService;
-    final public GameService gameService;
+    final public JoinGameService gameService;
 
     public String username;
 
@@ -27,7 +27,7 @@ public class GameGUI {
         Registry registry = LocateRegistry.getRegistry(host);
         loginService = (LoginService)registry.lookup("service.remote.LoginService");
 
-        gameService = new GameService();
+        gameService = new JoinGameService();
 
         frame = new JFrame("");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

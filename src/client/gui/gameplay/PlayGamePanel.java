@@ -1,14 +1,16 @@
 package client.gui.gameplay;
 
 import client.gui.GameGUI;
-import service.game.GameService;
+import model.game.Card;
+import model.game.PlayerStat;
+import service.game.JoinGameService;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class PlayGamePanel extends JPanel {
     final private CardLayout panelLayout;
-    final private GameService gameService;
+    final private JoinGameService gameService;
     final private GameBoardPanel gameBoardPanel;
 
     public PlayGamePanel(GameGUI gameGUI) {
@@ -32,6 +34,9 @@ public class PlayGamePanel extends JPanel {
     private void JoinGame(String username) {
         panelLayout.show(this, "Waiting");
 
+        gameBoardPanel.setCards(new Card[]{new Card(1, 1), new Card(1, 2), new Card(1, 2), new Card(1, 3)});
+        gameBoardPanel.setPlayerStats(new PlayerStat[]{new PlayerStat("A", 1, 1, 1), new PlayerStat("A", 1, 1, 1), new PlayerStat("A", 1, 1, 1)});
+        SwingUtilities.invokeLater(() -> panelLayout.show(this, "GameBoard"));
         try {
             gameService.joinGame(username, gameStartMessage -> {
                 gameBoardPanel.setCards(gameStartMessage.cards);

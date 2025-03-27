@@ -9,23 +9,22 @@ import java.awt.*;
 public class GameBoardPanel extends JPanel {
     final private CardsPanel cardsPanel;
     final private PlayersPanel playersPanel;
+    final private ExpressionInputPanel expressionInputPanel;
 
     public GameBoardPanel() {
         setLayout(new BorderLayout());
         setBackground(Color.WHITE);
 
+        add(cardsPanel = new CardsPanel(), BorderLayout.CENTER);
 
-        cardsPanel = new CardsPanel();
-        add(cardsPanel, BorderLayout.CENTER);
+        add(playersPanel = new PlayersPanel(), BorderLayout.EAST);
 
-        playersPanel = new PlayersPanel();
-        add(new PlayersPanel(), BorderLayout.EAST);
-
-        add(new ExpressionInputPanel(), BorderLayout.SOUTH);
+        add(expressionInputPanel = new ExpressionInputPanel(), BorderLayout.SOUTH);
     }
 
     public void setCards(Card[] cards) {
         cardsPanel.setCards(cards);
+        expressionInputPanel.setCardNumbers(cards);
     }
 
     public void setPlayerStats(PlayerStat[] playerStats) {

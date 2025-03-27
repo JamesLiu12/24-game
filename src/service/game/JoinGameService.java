@@ -11,11 +11,11 @@ import javax.jms.ObjectMessage;
 import javax.naming.NamingException;
 import java.util.function.Consumer;
 
-public class GameService {
+public class JoinGameService {
     final private QueueSender queueSender;
     final private TopicReceiver topicReceiver;
 
-    public GameService() throws NamingException, JMSException {
+    public JoinGameService() throws NamingException, JMSException {
         queueSender = new QueueSender(JmsConfig.JMS_HOST, JmsConfig.CONNECTION_FACTORY_JNDI, JmsConfig.QUEUE_JNDI);
         topicReceiver = new TopicReceiver(JmsConfig.JMS_HOST, JmsConfig.CONNECTION_FACTORY_JNDI, JmsConfig.TOPIC_JNDI);
     }
