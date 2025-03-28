@@ -4,10 +4,11 @@ import model.game.PlayerStat;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class PlayersPanel extends JPanel {
 
-    public PlayersPanel(PlayerStat[] playerStats) {
+    public PlayersPanel(List<PlayerStat> playerStats) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(Color.WHITE);
 
@@ -27,7 +28,7 @@ public class PlayersPanel extends JPanel {
 
         JLabel nameLabel = new JLabel(playerStat.username);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        JLabel statsLabel = new JLabel("Win: " + playerStat.winningGameNumber + "/" + playerStat.totalGameNumber + " avg: " + String.format("%.1f", playerStat.averageWinningTime) + "s");
+        JLabel statsLabel = new JLabel("Win: " + playerStat.gamesWon + "/" + playerStat.gamesPlayed + " avg: " + String.format("%.1f", playerStat.averageWinningTime) + "s");
         statsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 
         panel.add(nameLabel, BorderLayout.NORTH);
@@ -35,7 +36,7 @@ public class PlayersPanel extends JPanel {
         return panel;
     }
 
-    public void setPlayerStats(PlayerStat[] playerStats) {
+    public void setPlayerStats(List<PlayerStat> playerStats) {
         removeAll();
 
         add(Box.createVerticalStrut(10));

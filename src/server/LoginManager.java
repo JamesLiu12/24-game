@@ -11,8 +11,8 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 
 public class LoginManager extends UnicastRemoteObject implements LoginService {
-    UserInfoDAO userInfoDAO = new UserInfoDAO();
-    OnlineUserDAO onlineUserDAO = new OnlineUserDAO();
+    final private UserInfoDAO userInfoDAO = new UserInfoDAO();
+    final private OnlineUserDAO onlineUserDAO = new OnlineUserDAO();
 
     public LoginManager() throws RemoteException, SQLException, ClassNotFoundException {
 
@@ -44,7 +44,7 @@ public class LoginManager extends UnicastRemoteObject implements LoginService {
                 return false;
             }
 
-            userInfoDAO.insert(new UserInfo(username, password));
+            userInfoDAO.insert(new UserInfo(username, password, 0, 0, 0));
             onlineUserDAO.insert(new OnlineUser(username));
             return true;
         } catch (SQLException e) {

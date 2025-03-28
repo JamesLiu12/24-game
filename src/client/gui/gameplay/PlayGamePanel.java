@@ -2,7 +2,9 @@ package client.gui.gameplay;
 
 import client.gui.GameGUI;
 import model.game.Card;
+import model.game.GameStartMessage;
 import model.game.PlayerStat;
+import model.game.ValidationMessage;
 import service.game.JoinGameService;
 
 import javax.swing.*;
@@ -12,6 +14,7 @@ public class PlayGamePanel extends JPanel {
     final private CardLayout panelLayout;
     final private JoinGameService gameService;
     final private GameBoardPanel gameBoardPanel;
+    final private GameEndPanel gameEndPanel;
 
     public PlayGamePanel(GameGUI gameGUI) {
         gameService = gameGUI.gameService;
@@ -26,7 +29,8 @@ public class PlayGamePanel extends JPanel {
 
         add(newGameButton, "NewGame");
         add(waitingPanel, "Waiting");
-        add(gameBoardPanel = new GameBoardPanel(), "GameBoard");
+        add(gameBoardPanel = new GameBoardPanel(gameGUI), "GameBoard");
+        add(gameEndPanel = new GameEndPanel(event -> JoinGame(gameGUI.username)), "GameEnd");
 
         newGameButton.addActionListener(event -> JoinGame(gameGUI.username));
     }
@@ -34,18 +38,23 @@ public class PlayGamePanel extends JPanel {
     private void JoinGame(String username) {
         panelLayout.show(this, "Waiting");
 
-        gameBoardPanel.setCards(new Card[]{new Card(1, 1), new Card(1, 2), new Card(1, 2), new Card(1, 3)});
-        gameBoardPanel.setPlayerStats(new PlayerStat[]{new PlayerStat("A", 1, 1, 1), new PlayerStat("A", 1, 1, 1), new PlayerStat("A", 1, 1, 1)});
-        SwingUtilities.invokeLater(() -> panelLayout.show(this, "GameBoard"));
         try {
-            gameService.joinGame(username, gameStartMessage -> {
-                gameBoardPanel.setCards(gameStartMessage.cards);
-                gameBoardPanel.setPlayerStats(gameStartMessage.playerStats);
-                SwingUtilities.invokeLater(() -> panelLayout.show(this, "GameBoard"));
-            });
+            gameService.joinGame(username, this::gameStartAction, this::gameEndAction);
         } catch (Exception e) {
             panelLayout.show(this, "NewGame");
             System.err.println("Failed joining game: " + e);
         }
+    }
+
+    private void gameStartAction(GameStartMessage gameStartMessage) {
+        gameBoardPanel.setCards(gameStartMessage.cards);
+        gameBoardPanel.setPlayerStats(gameStartMessage.playerStats);
+        SwingUtilities.invokeLater(() -> panelLayout.show(this, "GameBoard"));
+    }
+
+    private void gameEndAction(ValidationMessage validationMessage) {
+        gameEndPanel.setWinner(validationMessage.username);
+        gameEndPanel.setSolution(validationMessage.expression);
+        SwingUtilities.invokeLater(() -> panelLayout.show(this, "GameEnd"));
     }
 }

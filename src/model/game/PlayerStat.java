@@ -1,15 +1,17 @@
 package model.game;
 
-public class PlayerStat {
+import java.io.Serializable;
+
+public class PlayerStat implements Serializable {
     public String username;
-    public int winningGameNumber;
-    public int totalGameNumber;
+    public int gamesWon;
+    public int gamesPlayed;
     public float averageWinningTime;
 
-    public PlayerStat(String username, int winningGameNumber, int totalGameNumber,  float averageWinningTime) {
+    public PlayerStat(String username, int gamesWon, int gamesPlayed,  float averageWinningTime) {
         this.username = username;
-        this.winningGameNumber = winningGameNumber;
-        this.totalGameNumber = totalGameNumber;
+        this.gamesWon = gamesWon;
+        this.gamesPlayed = gamesPlayed;
         this.averageWinningTime = averageWinningTime;
     }
 }

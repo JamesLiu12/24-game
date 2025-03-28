@@ -2,6 +2,7 @@ package service.jms;
 
 import javax.jms.*;
 import javax.naming.NamingException;
+import java.io.Serializable;
 
 public class TopicSender extends BaseJMS {
     private TopicConnectionFactory topicConnectionFactory;
@@ -31,9 +32,9 @@ public class TopicSender extends BaseJMS {
         System.out.println("Published to Topic: " + payload);
     }
 
-    public void publishObject(String object) throws JMSException {
+    public void publishObject(Serializable object) throws JMSException {
         ObjectMessage message = session.createObjectMessage(object);
         publisher.publish(message);
-        System.out.println("Sent Object to Queue: " + object);
+        System.out.println("Sent Object to Topic: " + object);
     }
 }

@@ -1,10 +1,13 @@
 package model.game;
 
-public class GameStartMessage {
-    public Card[] cards;
-    public PlayerStat[] playerStats;
+import java.io.Serializable;
+import java.util.List;
 
-    public GameStartMessage(Card[] cards, PlayerStat[] playerStats) {
+public class GameStartMessage implements Serializable {
+    public Card[] cards;
+    public List<PlayerStat> playerStats;
+
+    public GameStartMessage(Card[] cards, List<PlayerStat> playerStats) {
         this.cards = cards;
         this.playerStats = playerStats;
     }

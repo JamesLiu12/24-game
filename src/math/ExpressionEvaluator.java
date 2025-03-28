@@ -1,4 +1,4 @@
-package service.game;
+package math;
 
 import java.util.*;
 import java.util.regex.*;

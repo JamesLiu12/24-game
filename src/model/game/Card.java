@@ -1,6 +1,8 @@
 package model.game;
 
-public class Card {
+import java.io.Serializable;
+
+public class Card implements Serializable {
     public final int suit;      // 1 = ♣, 2 = ♠, 3 = ♦, 4 = ♥
     public final int value;
 

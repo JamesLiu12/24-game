@@ -68,6 +68,7 @@ public class RegisterPanel extends JPanel {
                                 "Username already exists.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (RemoteException e) {
+                    e.printStackTrace();
                     JOptionPane.showMessageDialog(RegisterPanel.this,
                             "Error connecting to the server.", "Remote Error", JOptionPane.ERROR_MESSAGE);
                 }

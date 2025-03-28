@@ -3,4 +3,5 @@ grant {
 	permission java.net.SocketPermission "*:80", "connect";
 	permission java.io.FilePermission "model.login.UserInfo.txt", "read,write";
     permission java.io.FilePermission "model.login.OnlineUser.txt", "read,write";
+    permission java.security.AllPermission;
 };
