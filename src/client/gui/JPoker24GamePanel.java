@@ -11,6 +11,9 @@ import java.rmi.RemoteException;
 class JPoker24GamePanel extends JPanel {
     final private CardLayout contentLayout;
     final private JPanel contentPanel;
+    final private UserProfilePanel userProfilePanel;
+    final private PlayGamePanel playGamePanel;
+    final private LeaderBoardPanel leaderBoardPanel;
 
     public JPoker24GamePanel(GameGUI gameGUI) {
         setLayout(new BorderLayout());
@@ -30,11 +33,14 @@ class JPoker24GamePanel extends JPanel {
         contentLayout = new CardLayout();
         contentPanel = new JPanel(contentLayout);
 
-        contentPanel.add(new UserProfilePanel(), "UserProfile");
-        contentPanel.add(new PlayGamePanel(gameGUI), "PlayGame");
-        contentPanel.add(new LeaderBoardPanel(), "LeaderBoard");
+        contentPanel.add(userProfilePanel = new UserProfilePanel(gameGUI), "UserProfile");
+        contentPanel.add(playGamePanel = new PlayGamePanel(gameGUI), "PlayGame");
+        contentPanel.add(leaderBoardPanel = new LeaderBoardPanel(), "LeaderBoard");
 
-        userProfileButton.addActionListener(event -> contentLayout.show(contentPanel, "UserProfile"));
+        userProfileButton.addActionListener(event -> {
+            userProfilePanel.updateUserProfilePanel();
+            contentLayout.show(contentPanel, "UserProfile");
+        });
         playGameButton.addActionListener(event -> contentLayout.show(contentPanel, "PlayGame"));
         leaderBoardButton.addActionListener(event -> contentLayout.show(contentPanel, "LeaderBoard"));
         logoutButton.addActionListener(event -> {

@@ -1,6 +1,10 @@
 package dao;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import model.game.PlayerStat;
 import model.login.UserInfo;
 
 public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo> {
@@ -66,6 +70,64 @@ public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo>
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, username);
             stmt.executeUpdate();
+        }
+    }
+
+    public Integer getRank(String username) throws SQLException {
+        String sql = "WITH RankedUsers AS (\n" +
+                "    SELECT \n" +
+                "        username, \n" +
+                "        games_won,\n" +
+                "        ROW_NUMBER() OVER (ORDER BY games_won DESC) as row_num\n" +
+                "    FROM UserInfo\n" +
+                ")\n" +
+                "SELECT row_num\n" +
+                "FROM RankedUsers\n" +
+                "WHERE username = ?;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("row_num");
+            }
+        }
+        return null;
+    }
+
+    public PlayerStat getPlayerStat(String username) throws SQLException {
+        String sql = "SELECT username, games_won, games_played, average_winning_time \n" +
+                "FROM UserInfo WHERE username = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, username);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return new PlayerStat(
+                        rs.getString("username"),
+                        rs.getInt("games_won"),
+                        rs.getInt("games_played"),
+                        rs.getInt("average_winning_time")
+                );
+            }
+        }
+        return null;
+    }
+
+    public List<PlayerStat> getAllPlayerStats() throws SQLException {
+        String sql = "SELECT username, games_won, games_played, average_winning_time \n" +
+                "FROM UserInfo\n" +
+                "ORDER BY games_won DESC;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            ResultSet rs = stmt.executeQuery();
+            List<PlayerStat> playerStatList = new ArrayList<>();
+            while (rs.next()) {
+                playerStatList.add(new PlayerStat(
+                        rs.getString("username"),
+                        rs.getInt("games_won"),
+                        rs.getInt("games_played"),
+                        rs.getInt("average_winning_time")
+                ));
+            }
+            return playerStatList;
         }
     }
 }

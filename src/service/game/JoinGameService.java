@@ -31,10 +31,10 @@ public class JoinGameService {
         queueSender.sendText(username);
 
         topicReceiver.setMessageListener(message -> {
-            System.out.println("Receive message: " + message);
             try {
                 if (message instanceof ObjectMessage) {
                     Serializable object = ((ObjectMessage) message).getObject();
+                    System.out.println("Receive object: " + object);
                     if (object instanceof GameStartMessage) {
                         GameStartMessage gameStartMessage = (GameStartMessage) object;
                         for (PlayerStat playerStat : gameStartMessage.playerStats) {

@@ -2,8 +2,10 @@ package client.gui;
 
 import client.gui.login.LoginPanel;
 import client.gui.login.RegisterPanel;
+import model.login.UserInfo;
 import service.game.JoinGameService;
 import service.remote.LoginService;
+import service.remote.PlayerDataService;
 
 import javax.jms.JMSException;
 import javax.naming.NamingException;
@@ -20,14 +22,18 @@ public class GameGUI {
 
     final public LoginService loginService;
     final public JoinGameService gameService;
+    final public PlayerDataService playerDataService;
 
     public String username;
+    public  UserInfo userInfo;
 
     public GameGUI(String host) throws RemoteException, NotBoundException, NamingException, JMSException {
         Registry registry = LocateRegistry.getRegistry(host);
         loginService = (LoginService)registry.lookup("service.remote.LoginService");
 
         gameService = new JoinGameService();
+
+        playerDataService = (PlayerDataService)registry.lookup("service.remote.PlayerDataService");
 
         frame = new JFrame("");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

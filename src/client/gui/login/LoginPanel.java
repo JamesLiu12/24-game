@@ -47,18 +47,25 @@ public class LoginPanel extends JPanel {
                         "Login name and password should not be empty.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
-                    if (gameGUI.loginService != null && gameGUI.loginService.login(username, password)) {
-                        JOptionPane.showMessageDialog(LoginPanel.this,
-                                "Logged in successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        gameGUI.username = username;
-                        gameGUI.showPanel("JPoker 24-Game", 600, 400);
+                    if (gameGUI.loginService != null) {
+                        gameGUI.userInfo = gameGUI.loginService.login(username, password);
+                        if (gameGUI.userInfo != null) {
+                            JOptionPane.showMessageDialog(LoginPanel.this,
+                                    "Logged in successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            gameGUI.username = username;
+                            gameGUI.showPanel("JPoker 24-Game", 600, 400);
+                        } else {
+                            JOptionPane.showMessageDialog(LoginPanel.this,
+                                    "Invalid credentials or already logged in.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(LoginPanel.this,
-                                "Invalid credentials or already logged in.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                                "Error connecting to the server.", "Login Failed", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (RemoteException e) {
                     JOptionPane.showMessageDialog(LoginPanel.this,
                             "Error connecting to the server.", "Remote Error", JOptionPane.ERROR_MESSAGE);
+                    e.printStackTrace();
                 }
             }
         });

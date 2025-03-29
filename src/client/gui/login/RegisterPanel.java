@@ -58,14 +58,20 @@ public class RegisterPanel extends JPanel {
                         "Passwords do not match.", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
                 try {
-                    if (gameGUI.loginService != null && gameGUI.loginService.register(username, password)) {
-                        JOptionPane.showMessageDialog(RegisterPanel.this,
-                                "Registration Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
-                        gameGUI.username = username;
-                        gameGUI.showPanel("JPoker 24-Game", 600, 400);
+                    if (gameGUI.loginService != null) {
+                        gameGUI.userInfo = gameGUI.loginService.register(username, password);
+                        if (gameGUI.userInfo != null) {
+                            JOptionPane.showMessageDialog(RegisterPanel.this,
+                                    "Registration Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                            gameGUI.username = username;
+                            gameGUI.showPanel("JPoker 24-Game", 600, 400);
+                        } else {
+                            JOptionPane.showMessageDialog(RegisterPanel.this,
+                                    "Username already exists.", "Login Failed", JOptionPane.ERROR_MESSAGE);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(RegisterPanel.this,
-                                "Username already exists.", "Error", JOptionPane.ERROR_MESSAGE);
+                                "Error connecting to the server.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();

@@ -11,42 +11,43 @@ import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 
 public class LoginManager extends UnicastRemoteObject implements LoginService {
-    final private UserInfoDAO userInfoDAO = new UserInfoDAO();
-    final private OnlineUserDAO onlineUserDAO = new OnlineUserDAO();
+    final private UserInfoDAO userInfoDAO;
+    final private OnlineUserDAO onlineUserDAO;
 
-    public LoginManager() throws RemoteException, SQLException, ClassNotFoundException {
-
+    public LoginManager(UserInfoDAO userInfoDAO, OnlineUserDAO onlineUserDAO) throws RemoteException {
+        this.userInfoDAO = userInfoDAO;
+        this.onlineUserDAO = onlineUserDAO;
     }
 
     @Override
-    public boolean login(String username, String password) throws RemoteException {
+    public UserInfo login(String username, String password) throws RemoteException {
         try {
             UserInfo userInfo = userInfoDAO.read(username);
             OnlineUser onlineUser = onlineUserDAO.read(username);
 
             if (userInfo == null || !userInfo.password.equals(password) || onlineUser != null) {
-                return false;
+                return null;
             }
 
             onlineUserDAO.insert(new OnlineUser(userInfo.username));
-            return true;
+            return userInfo;
         } catch (SQLException e) {
             throw new RemoteException("Login failed", e);
         }
     }
 
     @Override
-    public boolean register(String username, String password) throws RemoteException {
+    public UserInfo register(String username, String password) throws RemoteException {
         try {
             UserInfo userInfo = userInfoDAO.read(username);
 
             if (userInfo != null) {
-                return false;
+                return null;
             }
 
-            userInfoDAO.insert(new UserInfo(username, password, 0, 0, 0));
+            userInfoDAO.insert(userInfo = new UserInfo(username, password, 0, 0, 0));
             onlineUserDAO.insert(new OnlineUser(username));
-            return true;
+            return userInfo;
         } catch (SQLException e) {
             throw new RemoteException("Registration failed", e);
         }

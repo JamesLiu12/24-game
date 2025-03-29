@@ -1,6 +1,8 @@
 package model.login;
 
-public class UserInfo {
+import java.io.Serializable;
+
+public class UserInfo implements Serializable {
     public String username;
     public String password;
     public int gamesWon;

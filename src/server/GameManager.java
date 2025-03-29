@@ -21,11 +21,12 @@ public class GameManager {
     final private StartGameService startGameService;
     final private List<String> usernames;
     private volatile long firstJoinTime = 0;
-    final private UserInfoDAO userInfoDAO = new UserInfoDAO();
+    final private UserInfoDAO userInfoDAO;
 
-    public GameManager() throws NamingException, JMSException, SQLException, ClassNotFoundException {
+    public GameManager(UserInfoDAO userInfoDAO) throws NamingException, JMSException, SQLException, ClassNotFoundException {
         startGameService = new StartGameService();
         usernames = new ArrayList<>();
+        this.userInfoDAO = userInfoDAO;
     }
 
     public void start() throws SQLException, JMSException {
