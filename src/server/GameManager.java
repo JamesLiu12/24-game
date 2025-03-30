@@ -12,15 +12,14 @@ import service.game.StartGameService;
 import javax.jms.JMSException;
 import javax.naming.NamingException;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameManager {
     final private StartGameService startGameService;
     final private List<String> usernames;
     private volatile long firstJoinTime = 0;
+    private long startTime;
+    private long endTime;
     final private UserInfoDAO userInfoDAO;
 
     public GameManager(UserInfoDAO userInfoDAO) throws NamingException, JMSException, SQLException, ClassNotFoundException {
@@ -50,7 +49,7 @@ public class GameManager {
                                 userInfo.averageWinningTime));
                     }
 
-                    Card[] cards = generate4RandomCards();
+                    Card[] cards = Card.generate4RandomCards();
 
                     GameStartMessage gameStartMessage = new GameStartMessage(
                             cards,
@@ -58,7 +57,7 @@ public class GameManager {
                     );
 
                     startGameService.startGame(gameStartMessage);
-
+                    startTime = System.currentTimeMillis();
 
                     List<Integer> cardNumbers = new ArrayList<>();
                     for (Card card : cards) {
@@ -69,12 +68,15 @@ public class GameManager {
                         ValidationMessage validationMessage = startGameService.acceptValidationRequest();
                         System.out.println("Validation Message: " + validationMessage);
                         Integer result = ExpressionEvaluator.eval(validationMessage.expression, cardNumbers);
-                        if (result != null && result == 24) {
+//                        if (result != null && result == 24) {
+                            endTime = System.currentTimeMillis();
                             startGameService.endGame(validationMessage);
-                            usernames.clear();
                             firstJoinTime = 0;
+                            System.out.println("update all");
+                            updateAllPlayerStats(validationMessage.username);
+                            usernames.clear();
                             break;
-                        }
+//                        }
                     }
 
                 }
@@ -101,27 +103,20 @@ public class GameManager {
                 e.printStackTrace();
             }
         }
-
     }
 
-    private Card[] generate4RandomCards() {
-        Random random = new Random();
-        HashSet<String> seen = new HashSet<>();
-        Card[] cards = new Card[4];
+    private void updateAllPlayerStats(String winnerUsername) throws SQLException {
+        for (String username : usernames) {
+           PlayerStat playerStat = userInfoDAO.getPlayerStat(username);
 
-        int count = 0;
-        while (count < 4) {
-            int suit = random.nextInt(4) + 1;
-            int value = random.nextInt(13) + 1;
+           if (Objects.equals(playerStat.username, winnerUsername)) {
+               playerStat.averageWinningTime = (playerStat.gamesPlayed * playerStat.averageWinningTime
+                       + (endTime - startTime) * 0.001) / (playerStat.gamesPlayed + 1);
+               playerStat.gamesWon += 1;
+           }
 
-            String key = suit + "-" + value;
-            if (!seen.contains(key)) {
-                seen.add(key);
-                cards[count] = new Card(suit, value);
-                count++;
-            }
+           playerStat.gamesPlayed += 1;
+           userInfoDAO.updatePlayerStat(playerStat);
         }
-
-        return cards;
     }
 }

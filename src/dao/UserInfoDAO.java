@@ -30,7 +30,7 @@ public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo>
             stmt.setString(2, user.password);
             stmt.setInt(3, user.gamesWon);
             stmt.setInt(4, user.gamesPlayed);
-            stmt.setInt(5, user.averageWinningTime);
+            stmt.setDouble(5, user.averageWinningTime);
             stmt.executeUpdate();
             System.out.println("User added: " + user.username);
         }
@@ -48,7 +48,7 @@ public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo>
                         rs.getString("password"),
                         rs.getInt("games_won"),
                         rs.getInt("games_played"),
-                        rs.getInt("average_winning_time"));
+                        rs.getDouble("average_winning_time"));
             }
         }
         return null;
@@ -105,7 +105,7 @@ public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo>
                         rs.getString("username"),
                         rs.getInt("games_won"),
                         rs.getInt("games_played"),
-                        rs.getInt("average_winning_time")
+                        rs.getDouble("average_winning_time")
                 );
             }
         }
@@ -124,10 +124,23 @@ public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo>
                         rs.getString("username"),
                         rs.getInt("games_won"),
                         rs.getInt("games_played"),
-                        rs.getInt("average_winning_time")
+                        rs.getDouble("average_winning_time")
                 ));
             }
             return playerStatList;
         }
     }
+
+    public void updatePlayerStat(PlayerStat player) throws SQLException {
+        String sql = "UPDATE UserInfo SET games_won = ?, games_played = ?, average_winning_time = ?\n" +
+                "WHERE username = ?;";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, player.gamesWon);
+            stmt.setInt(2, player.gamesPlayed);
+            stmt.setDouble(3, player.averageWinningTime);
+            stmt.setString(4, player.username);
+            stmt.executeUpdate();
+        }
+    }
+
 }

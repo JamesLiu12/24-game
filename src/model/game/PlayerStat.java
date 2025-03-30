@@ -6,9 +6,9 @@ public class PlayerStat implements Serializable {
     public String username;
     public int gamesWon;
     public int gamesPlayed;
-    public float averageWinningTime;
+    public double averageWinningTime;
 
-    public PlayerStat(String username, int gamesWon, int gamesPlayed,  float averageWinningTime) {
+    public PlayerStat(String username, int gamesWon, int gamesPlayed,  double averageWinningTime) {
         this.username = username;
         this.gamesWon = gamesWon;
         this.gamesPlayed = gamesPlayed;

@@ -7,9 +7,9 @@ public class UserInfo implements Serializable {
     public String password;
     public int gamesWon;
     public int gamesPlayed;
-    public int averageWinningTime;
+    public double averageWinningTime;
 
-    public UserInfo(String username, String password, int gamesWon, int gamesPlayed, int averageWinningTime) {
+    public UserInfo(String username, String password, int gamesWon, int gamesPlayed, double averageWinningTime) {
         this.username = username;
         this.password = password;
         this.gamesWon = gamesWon;
