@@ -53,6 +53,7 @@ public class JoinGameService {
                         ValidationMessage validationMessage = (ValidationMessage) object;
                         if (playerUsernames.contains(validationMessage.username)) {
                             gameEndCallback.accept(validationMessage);
+                            playerUsernames.clear();
                         }
                     }
                 }

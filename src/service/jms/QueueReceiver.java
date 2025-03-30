@@ -41,4 +41,8 @@ public class QueueReceiver extends BaseJMS {
             return null;
         }
     }
+
+    public Message receive() throws JMSException {
+        return queueReceiver.receive();
+    }
 }

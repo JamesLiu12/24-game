@@ -28,12 +28,13 @@ public class GameManager {
         this.userInfoDAO = userInfoDAO;
     }
 
-    public void start() throws SQLException, JMSException {
+    public void start() throws SQLException, JMSException, InterruptedException {
         new Thread(this::listenForJoins).start();
 
         System.out.println("Server started and ready for clients.");
 
         while (true) {
+            Thread.sleep(500);
             long elapsed = System.currentTimeMillis() - firstJoinTime;
 
             synchronized (usernames) {
@@ -51,6 +52,8 @@ public class GameManager {
 
                     Card[] cards = Card.generate4RandomCards();
 
+                    System.out.println(cards);
+
                     GameStartMessage gameStartMessage = new GameStartMessage(
                             cards,
                             playerStats
@@ -65,15 +68,16 @@ public class GameManager {
                     }
 
                     while (true) {
+                        System.out.println("Start to accept validation request");
                         ValidationMessage validationMessage = startGameService.acceptValidationRequest();
-                        System.out.println("Validation Message: " + validationMessage);
+                        System.out.println("Message: " + validationMessage);
                         Integer result = ExpressionEvaluator.eval(validationMessage.expression, cardNumbers);
 //                        if (result != null && result == 24) {
                             endTime = System.currentTimeMillis();
                             startGameService.endGame(validationMessage);
                             firstJoinTime = 0;
-                            System.out.println("update all");
                             updateAllPlayerStats(validationMessage.username);
+                            System.out.println(usernames);
                             usernames.clear();
                             break;
 //                        }
@@ -88,11 +92,13 @@ public class GameManager {
     public void listenForJoins() {
         while (true) {
             try {
+                System.out.println("Start to accept join request");
                 String username = startGameService.acceptJoinRequest();
 
                 synchronized (usernames) {
                     if (!usernames.contains(username)) {
                         usernames.add(username);
+                        System.out.println("User enter");
 
                         if (usernames.size() == 1) {
                             firstJoinTime = System.currentTimeMillis();
