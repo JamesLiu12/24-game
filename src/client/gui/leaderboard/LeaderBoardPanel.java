@@ -1,27 +1,23 @@
 package client.gui.leaderboard;
 
+import client.gui.GameGUI;
+import model.game.PlayerStat;
+
 import javax.swing.*;
 import java.awt.*;
+import java.rmi.RemoteException;
+import java.util.List;
 
 public class LeaderBoardPanel extends JPanel {
-    public LeaderBoardPanel() {
+    final private GameGUI gameGUI;
+    final private JTable leaderboardTable;
+
+    public LeaderBoardPanel(GameGUI gameGUI) {
+        this.gameGUI = gameGUI;
+
         setLayout(new BorderLayout());
 
-        String[] columnNames = {"Rank", "Player", "Games won", "Games played", "Avg. winning time"};
-        Object[][] data = {
-                {1, "Player 1", 20, 40, "10.3s"},
-                {2, "Player 2", 19, 49, "10.3s"},
-                {3, "Player 3", 18, 48, "10.3s"},
-                {4, "Player 4", 17, 47, "10.3s"},
-                {5, "Player 5", 16, 46, "10.3s"},
-                {6, "Player 6", 15, 45, "10.3s"},
-                {7, "Player 7", 14, 44, "10.3s"},
-                {8, "Player 8", 13, 43, "10.3s"},
-                {9, "Player 9", 12, 42, "10.3s"},
-                {10, "Player 10", 11, 41, "10.3s"}
-        };
-
-        JTable leaderboardTable = new JTable(data, columnNames);
+        leaderboardTable = new JTable();
         leaderboardTable.setFont(new Font("Arial", Font.PLAIN, 16));
         leaderboardTable.setRowHeight(25);
         leaderboardTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 16));
@@ -30,4 +26,27 @@ public class LeaderBoardPanel extends JPanel {
         JScrollPane scrollPane = new JScrollPane(leaderboardTable);
         add(scrollPane, BorderLayout.CENTER);
     }
+
+    public void updateData() {
+        try {
+            String[] columnNames = {"Rank", "Player", "Games won", "Games played", "Avg. winning time"};
+            List<PlayerStat> allPlayerStats = gameGUI.playerDataService.getAllPlayerStats();
+
+            Object[][] rowData = new Object[allPlayerStats.size()][5];
+            for (int i = 0; i < allPlayerStats.size(); i++) {
+                PlayerStat stat = allPlayerStats.get(i);
+                rowData[i][0] = i + 1;
+                rowData[i][1] = stat.username;
+                rowData[i][2] = stat.gamesWon;
+                rowData[i][3] = stat.gamesPlayed;
+                rowData[i][4] = String.format("%.2f", stat.averageWinningTime);
+            }
+
+            leaderboardTable.setModel(new javax.swing.table.DefaultTableModel(rowData, columnNames));
+        } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(this, "Failed to load user stats.",
+                    "Remote Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }

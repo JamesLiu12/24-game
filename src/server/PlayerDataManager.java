@@ -19,19 +19,30 @@ public class PlayerDataManager extends UnicastRemoteObject implements PlayerData
     }
 
     @Override
-    public PlayerStat getPlayerStat(String username) throws SQLException {
-        return userInfoDAO.getPlayerStat(username);
+    public PlayerStat getPlayerStat(String username) throws RemoteException {
+        try {
+            return userInfoDAO.getPlayerStat(username);
+        } catch (SQLException e) {
+            throw new RemoteException("Database error", e);
+        }
     }
 
     @Override
-    public Integer getPlayerRank(String username) throws SQLException {
-        return userInfoDAO.getRank(username);
+    public Integer getPlayerRank(String username) throws RemoteException {
+        try {
+            return userInfoDAO.getRank(username);
+        } catch (SQLException e) {
+            throw new RemoteException("Database error", e);
+        }
     }
 
     @Override
-    public List<PlayerStat> getAllPlayerStats(String username) throws SQLException {
-        return userInfoDAO.getAllPlayerStats();
+    public List<PlayerStat> getAllPlayerStats() throws RemoteException {
+        try {
+            return userInfoDAO.getAllPlayerStats();
+        } catch (SQLException e) {
+            throw new RemoteException("Database error", e);
+        }
     }
-
 
 }

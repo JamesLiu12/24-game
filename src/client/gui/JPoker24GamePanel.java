@@ -35,14 +35,17 @@ class JPoker24GamePanel extends JPanel {
 
         contentPanel.add(userProfilePanel = new UserProfilePanel(gameGUI), "UserProfile");
         contentPanel.add(playGamePanel = new PlayGamePanel(gameGUI), "PlayGame");
-        contentPanel.add(leaderBoardPanel = new LeaderBoardPanel(), "LeaderBoard");
+        contentPanel.add(leaderBoardPanel = new LeaderBoardPanel(gameGUI), "LeaderBoard");
 
         userProfileButton.addActionListener(event -> {
-            userProfilePanel.updateUserProfilePanel();
+            userProfilePanel.updateData();
             contentLayout.show(contentPanel, "UserProfile");
         });
         playGameButton.addActionListener(event -> contentLayout.show(contentPanel, "PlayGame"));
-        leaderBoardButton.addActionListener(event -> contentLayout.show(contentPanel, "LeaderBoard"));
+        leaderBoardButton.addActionListener(event -> {
+            leaderBoardPanel.updateData();
+            contentLayout.show(contentPanel, "LeaderBoard");
+        });
         logoutButton.addActionListener(event -> {
             try {
                 gameGUI.loginService.logout(gameGUI.username);
@@ -57,5 +60,9 @@ class JPoker24GamePanel extends JPanel {
         add(contentPanel, BorderLayout.CENTER);
 
         contentLayout.show(contentPanel, "UserProfile");
+    }
+
+    public void init() {
+        userProfilePanel.updateData();
     }
 }

@@ -4,11 +4,11 @@ import model.game.PlayerStat;
 import model.login.UserInfo;
 
 import java.rmi.Remote;
-import java.sql.SQLException;
+import java.rmi.RemoteException;
 import java.util.List;
 
 public interface PlayerDataService extends Remote {
-    PlayerStat getPlayerStat(String username) throws SQLException;
-    Integer getPlayerRank(String username) throws SQLException;
-    List<PlayerStat> getAllPlayerStats(String username) throws SQLException;
+    PlayerStat getPlayerStat(String username) throws RemoteException;
+    Integer getPlayerRank(String username) throws RemoteException;
+    List<PlayerStat> getAllPlayerStats() throws RemoteException;
 }

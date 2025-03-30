@@ -114,7 +114,7 @@ public class UserInfoDAO extends BaseDAO implements DatabaseOperations<UserInfo>
 
     public List<PlayerStat> getAllPlayerStats() throws SQLException {
         String sql = "SELECT username, games_won, games_played, average_winning_time \n" +
-                "FROM UserInfo\n" +
+                "FROM UserInfo \n" +
                 "ORDER BY games_won DESC;";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             ResultSet rs = stmt.executeQuery();

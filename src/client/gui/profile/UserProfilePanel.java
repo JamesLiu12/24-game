@@ -5,7 +5,7 @@ import model.game.PlayerStat;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.SQLException;
+import java.rmi.RemoteException;
 
 public class UserProfilePanel extends JPanel {
     private final JLabel usernameLabel;
@@ -48,13 +48,7 @@ public class UserProfilePanel extends JPanel {
         add(profilePanel, BorderLayout.CENTER);
     }
 
-    @Override
-    public void addNotify() {
-        super.addNotify();
-        updateUserProfilePanel(); // Called when panel is shown
-    }
-
-    public void updateUserProfilePanel() {
+    public void updateData() {
         try {
             PlayerStat stat = gameGUI.playerDataService.getPlayerStat(gameGUI.username);
             Integer rank = gameGUI.playerDataService.getPlayerRank(gameGUI.username);
@@ -64,9 +58,9 @@ public class UserProfilePanel extends JPanel {
             gamesLabel.setText("Number of games: " + stat.gamesPlayed);
             avgTimeLabel.setText(String.format("Average time to win: %.2f s", stat.averageWinningTime));
             rankLabel.setText("Rank: #" + (rank != null ? rank : "-"));
-        } catch (SQLException e) {
+        } catch (RemoteException e) {
             JOptionPane.showMessageDialog(this, "Failed to load user stats.",
-                    "Database Error", JOptionPane.ERROR_MESSAGE);
+                    "Remote Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 }
