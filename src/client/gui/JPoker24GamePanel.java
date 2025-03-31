@@ -50,6 +50,7 @@ class JPoker24GamePanel extends JPanel {
         logoutButton.addActionListener(event -> {
             try {
                 gameGUI.loginService.logout(gameGUI.username);
+                gameGUI.loggedIn = false;
                 gameGUI.showPanel("Login", LOGIN_PANEL_WIDTH, LOGIN_PANEL_HEIGHT);
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(JPoker24GamePanel.this,

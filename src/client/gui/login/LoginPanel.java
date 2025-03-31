@@ -54,6 +54,7 @@ public class LoginPanel extends JPanel {
                             JOptionPane.showMessageDialog(LoginPanel.this,
                                     "Logged in successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                             gameGUI.username = username;
+                            gameGUI.loggedIn = true;
                             gameGUI.showPanel("JPoker 24-Game", J_POKER_24_GAME_PANEL_WIDTH, J_POKER_24_GAME_PANEL_HEIGHT);
                         } else {
                             JOptionPane.showMessageDialog(LoginPanel.this,

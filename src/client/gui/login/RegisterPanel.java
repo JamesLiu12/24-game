@@ -66,6 +66,7 @@ public class RegisterPanel extends JPanel {
                             JOptionPane.showMessageDialog(RegisterPanel.this,
                                     "Registration Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             gameGUI.username = username;
+                            gameGUI.loggedIn = true;
                             gameGUI.showPanel("JPoker 24-Game", J_POKER_24_GAME_PANEL_WIDTH, J_POKER_24_GAME_PANEL_HEIGHT);
                         } else {
                             JOptionPane.showMessageDialog(RegisterPanel.this,
