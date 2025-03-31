@@ -6,6 +6,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.rmi.RemoteException;
 
+import static constant.GuiConfig.*;
+
 public class RegisterPanel extends JPanel {
     public RegisterPanel(GameGUI gameGUI) {
         setLayout(new BorderLayout());
@@ -64,7 +66,7 @@ public class RegisterPanel extends JPanel {
                             JOptionPane.showMessageDialog(RegisterPanel.this,
                                     "Registration Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             gameGUI.username = username;
-                            gameGUI.showPanel("JPoker 24-Game", 600, 400);
+                            gameGUI.showPanel("JPoker 24-Game", J_POKER_24_GAME_PANEL_WIDTH, J_POKER_24_GAME_PANEL_HEIGHT);
                         } else {
                             JOptionPane.showMessageDialog(RegisterPanel.this,
                                     "Username already exists.", "Login Failed", JOptionPane.ERROR_MESSAGE);
@@ -82,7 +84,7 @@ public class RegisterPanel extends JPanel {
         });
 
         cancelButton.addActionListener(e -> {
-            gameGUI.showPanel("Login", 400, 300);
+            gameGUI.showPanel("Login", LOGIN_PANEL_WIDTH, LOGIN_PANEL_HEIGHT);
         });
 
         add(registerFormPanel, BorderLayout.CENTER);

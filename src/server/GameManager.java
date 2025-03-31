@@ -71,8 +71,9 @@ public class GameManager {
                         System.out.println("Start to accept validation request");
                         ValidationMessage validationMessage = startGameService.acceptValidationRequest();
                         System.out.println("Message: " + validationMessage);
-                        Integer result = ExpressionEvaluator.eval(validationMessage.expression, cardNumbers);
-//                        if (result != null && result == 24) {
+                        boolean allUsedOnce = ExpressionEvaluator.isAllUsedOnce(validationMessage.expression, cardNumbers);
+                        Integer result = ExpressionEvaluator.eval(validationMessage.expression);
+                        if (allUsedOnce && result != null && result == 24) {
                             endTime = System.currentTimeMillis();
                             startGameService.endGame(validationMessage);
                             firstJoinTime = 0;
@@ -80,7 +81,7 @@ public class GameManager {
                             System.out.println(usernames);
                             usernames.clear();
                             break;
-//                        }
+                        }
                     }
 
                 }

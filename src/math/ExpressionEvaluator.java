@@ -8,14 +8,8 @@ import javax.script.ScriptException;
 
 public class ExpressionEvaluator {
 
-    public static Integer eval(String expr, List<Integer> inputNumbers) {
-        expr = expr.replaceAll("\\bJ\\b", "11")
-                .replaceAll("\\bQ\\b", "12")
-                .replaceAll("\\bK\\b", "13");
-
-        List<Integer> usedNumbers = extractNumbers(expr);
-
-        if (!sameFrequency(inputNumbers, usedNumbers)) return null;
+    public static Integer eval(String expr) {
+        expr = parse(expr);
 
         try {
             ScriptEngine engine = new ScriptEngineManager().getEngineByName("JavaScript");
@@ -34,6 +28,21 @@ public class ExpressionEvaluator {
         }
 
         return null;
+    }
+
+    public static boolean isAllUsedOnce(String expr, List<Integer> inputNumbers) {
+        expr = parse(expr);
+
+        List<Integer> usedNumbers = extractNumbers(expr);
+
+        return sameFrequency(inputNumbers, usedNumbers);
+    }
+
+    public static String parse(String expr) {
+        return expr.replaceAll("\\bJ\\b", "11")
+                .replaceAll("\\bQ\\b", "12")
+                .replaceAll("\\bK\\b", "13")
+                .replaceAll("\\bA\\b", "1");
     }
 
     private static List<Integer> extractNumbers(String expr) {

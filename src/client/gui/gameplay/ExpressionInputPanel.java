@@ -72,10 +72,13 @@ public class ExpressionInputPanel extends JPanel {
 
     private void updateResult() {
         String expr = exprField.getText();
-        Integer result = ExpressionEvaluator.eval(expr, cardNumbers);
-        System.out.println(result);
+        boolean allUsedOnce = ExpressionEvaluator.isAllUsedOnce(expr, cardNumbers);
+        Integer result = ExpressionEvaluator.eval(expr);
         if (result == null) {
             resultLabel.setText("Invalid Input or Non-integer Result");
+            resultLabel.setFont(smallerFont);
+        } else if (!allUsedOnce) {
+            resultLabel.setText(" = " + result + " (all numbers should be used only once)");
             resultLabel.setFont(smallerFont);
         } else {
             resultLabel.setText(" = " + result);

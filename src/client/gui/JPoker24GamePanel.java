@@ -7,6 +7,7 @@ import client.gui.profile.UserProfilePanel;
 import javax.swing.*;
 import java.awt.*;
 import java.rmi.RemoteException;
+import static constant.GuiConfig.*;
 
 class JPoker24GamePanel extends JPanel {
     final private CardLayout contentLayout;
@@ -49,7 +50,7 @@ class JPoker24GamePanel extends JPanel {
         logoutButton.addActionListener(event -> {
             try {
                 gameGUI.loginService.logout(gameGUI.username);
-                gameGUI.showPanel("Login", 400, 300);
+                gameGUI.showPanel("Login", LOGIN_PANEL_WIDTH, LOGIN_PANEL_HEIGHT);
             } catch (RemoteException e) {
                 JOptionPane.showMessageDialog(JPoker24GamePanel.this,
                         "Error connecting to the server.", "Remote Error", JOptionPane.ERROR_MESSAGE);

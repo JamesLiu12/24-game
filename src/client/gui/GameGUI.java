@@ -15,6 +15,8 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.*;
 
+import static constant.GuiConfig.*;
+
 public class GameGUI {
     final private JFrame frame;
     final private JPanel mainPanel;
@@ -54,7 +56,7 @@ public class GameGUI {
         frame.add(mainPanel);
         frame.setVisible(true);
 
-        showPanel("Login", 400, 300);
+        showPanel("Login", LOGIN_PANEL_WIDTH, LOGIN_PANEL_HEIGHT);
     }
 
     public void showPanel(String panelName, int width, int height) {

@@ -22,17 +22,30 @@ public class PlayersPanel extends JPanel {
 
     private JPanel createPlayerBox(PlayerStat playerStat) {
         JPanel panel = new JPanel(new BorderLayout());
-        panel.setPreferredSize(new Dimension(120, 40));
+        panel.setPreferredSize(new Dimension(180, 60));
         panel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         panel.setBackground(Color.WHITE);
 
         JLabel nameLabel = new JLabel(playerStat.username);
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        JLabel statsLabel = new JLabel("Win: " + playerStat.gamesWon + "/" + playerStat.gamesPlayed + " avg: " + String.format("%.1f", playerStat.averageWinningTime) + "s");
-        statsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+        nameLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        JPanel statsPanel = new JPanel();
+        statsPanel.setLayout(new BoxLayout(statsPanel, BoxLayout.Y_AXIS));
+        statsPanel.setBackground(Color.WHITE);
+
+        JLabel winStatLabel = new JLabel("Win: " + playerStat.gamesWon + "/" + playerStat.gamesPlayed);
+        winStatLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        winStatLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel avgStatLabel = new JLabel("avg: " + String.format("%.1f", playerStat.averageWinningTime) + "s");
+        avgStatLabel.setFont(new Font("Arial", Font.PLAIN, 18));
+        avgStatLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        statsPanel.add(winStatLabel);
+        statsPanel.add(avgStatLabel);
 
         panel.add(nameLabel, BorderLayout.NORTH);
-        panel.add(statsLabel, BorderLayout.SOUTH);
+        panel.add(statsPanel, BorderLayout.SOUTH);
         return panel;
     }
 

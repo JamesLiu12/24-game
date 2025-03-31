@@ -5,6 +5,7 @@ import client.gui.GameGUI;
 import javax.swing.*;
 import java.awt.*;
 import java.rmi.*;
+import static constant.GuiConfig.*;
 
 public class LoginPanel extends JPanel {
 
@@ -53,7 +54,7 @@ public class LoginPanel extends JPanel {
                             JOptionPane.showMessageDialog(LoginPanel.this,
                                     "Logged in successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                             gameGUI.username = username;
-                            gameGUI.showPanel("JPoker 24-Game", 600, 400);
+                            gameGUI.showPanel("JPoker 24-Game", J_POKER_24_GAME_PANEL_WIDTH, J_POKER_24_GAME_PANEL_HEIGHT);
                         } else {
                             JOptionPane.showMessageDialog(LoginPanel.this,
                                     "Invalid credentials or already logged in.", "Login Failed", JOptionPane.ERROR_MESSAGE);
@@ -72,7 +73,7 @@ public class LoginPanel extends JPanel {
 
         registerButton.addActionListener(event -> {
             System.out.println("Navigating to Register Panel");
-            gameGUI.showPanel("Register", 400, 300);
+            gameGUI.showPanel("Register", REGISTER_PANEL_WIDTH, REGISTER_PANEL_HEIGHT);
         });
 
         add(loginFormPanel, BorderLayout.CENTER);
