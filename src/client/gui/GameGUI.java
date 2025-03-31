@@ -31,7 +31,6 @@ public class GameGUI {
 
     public boolean loggedIn;
     public String username;
-    public UserInfo userInfo;
 
     final private LoginPanel loginPanel;
     final private RegisterPanel registerPanel;

@@ -20,34 +20,34 @@ public class LoginManager extends UnicastRemoteObject implements LoginService {
     }
 
     @Override
-    public UserInfo login(String username, String password) throws RemoteException {
+    public boolean login(String username, String password) throws RemoteException {
         try {
             UserInfo userInfo = userInfoDAO.read(username);
             OnlineUser onlineUser = onlineUserDAO.read(username);
 
             if (userInfo == null || !userInfo.password.equals(password) || onlineUser != null) {
-                return null;
+                return false;
             }
 
             onlineUserDAO.insert(new OnlineUser(userInfo.username));
-            return userInfo;
+            return true;
         } catch (SQLException e) {
             throw new RemoteException("Login failed", e);
         }
     }
 
     @Override
-    public UserInfo register(String username, String password) throws RemoteException {
+    public boolean register(String username, String password) throws RemoteException {
         try {
             UserInfo userInfo = userInfoDAO.read(username);
 
             if (userInfo != null) {
-                return null;
+                return false;
             }
 
-            userInfoDAO.insert(userInfo = new UserInfo(username, password, 0, 0, 0));
+            userInfoDAO.insert(new UserInfo(username, password, 0, 0, 0));
             onlineUserDAO.insert(new OnlineUser(username));
-            return userInfo;
+            return true;
         } catch (SQLException e) {
             throw new RemoteException("Registration failed", e);
         }

@@ -61,8 +61,8 @@ public class RegisterPanel extends JPanel {
             } else {
                 try {
                     if (gameGUI.loginService != null) {
-                        gameGUI.userInfo = gameGUI.loginService.register(username, password);
-                        if (gameGUI.userInfo != null) {
+                        boolean success = gameGUI.loginService.register(username, password);
+                        if (success) {
                             JOptionPane.showMessageDialog(RegisterPanel.this,
                                     "Registration Successful!", "Success", JOptionPane.INFORMATION_MESSAGE);
                             gameGUI.username = username;

@@ -49,8 +49,8 @@ public class LoginPanel extends JPanel {
             } else {
                 try {
                     if (gameGUI.loginService != null) {
-                        gameGUI.userInfo = gameGUI.loginService.login(username, password);
-                        if (gameGUI.userInfo != null) {
+                        boolean success = gameGUI.loginService.login(username, password);
+                        if (success) {
                             JOptionPane.showMessageDialog(LoginPanel.this,
                                     "Logged in successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
                             gameGUI.username = username;
