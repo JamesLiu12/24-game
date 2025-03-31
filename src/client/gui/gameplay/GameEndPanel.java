@@ -35,8 +35,10 @@ public class GameEndPanel extends JPanel {
 
         nextGameButton = new JButton("Next game");
         nextGameButton.setPreferredSize(new Dimension(100, 30));
-        JPanel bottomPanel = new JPanel();
-        bottomPanel.add(nextGameButton);
+
+        JPanel bottomPanel = new JPanel(new BorderLayout());
+        bottomPanel.add(nextGameButton, BorderLayout.CENTER);
+
         add(bottomPanel, BorderLayout.SOUTH);
 
         nextGameButton.addActionListener(listener);
